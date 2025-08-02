@@ -6,6 +6,8 @@
     <title>Generador de Códigos QR SISTEMAWILL</title>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -375,6 +377,10 @@
         .quality-max { background: #dcfce7; color: #166534; }
         .quality-max:hover { background: #bbf7d0; }
 
+        .iti {
+            width: 100%;
+        }
+
         .qr-info {
             width: 100%;
             margin-top: 25px;
@@ -638,12 +644,34 @@
                 <div id="whatsappConfig" class="whatsapp-config hidden">
                     <h3>Configuración de WhatsApp</h3>
                     <div class="form-group">
-                        <label class="form-label">Número de teléfono (con código de país)</label>
-                        <input type="tel" id="whatsappNumber" class="input-field" placeholder="ej: +1234567890 o 1234567890">
+                        <label class="form-label">Número de teléfono</label>
+                        <input type="tel" id="whatsappNumber" class="input-field" placeholder="Selecciona el país y escribe el número">
                     </div>
                     <div class="form-group">
                         <label class="form-label">Mensaje predefinido (opcional)</label>
                         <textarea id="whatsappMessage" class="textarea-field" rows="2" placeholder="Hola, me interesa..."></textarea>
+                    </div>
+                </div>
+
+                <!-- Phone Configuration -->
+                <div id="phoneConfig" class="whatsapp-config hidden">
+                    <h3>Configuración de Teléfono</h3>
+                    <div class="form-group">
+                        <label class="form-label">Número de teléfono</label>
+                        <input type="tel" id="phoneNumber" class="input-field" placeholder="Selecciona el país y escribe el número">
+                    </div>
+                </div>
+
+                <!-- SMS Configuration -->
+                <div id="smsConfig" class="whatsapp-config hidden">
+                    <h3>Configuración de SMS</h3>
+                    <div class="form-group">
+                        <label class="form-label">Número de teléfono</label>
+                        <input type="tel" id="smsNumber" class="input-field" placeholder="Selecciona el país y escribe el número">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Mensaje</label>
+                        <textarea id="smsMessage" class="textarea-field" rows="2" placeholder="Hola"></textarea>
                     </div>
                 </div>
 
@@ -855,12 +883,26 @@
         let currentType = 'url';
         let qrHistory = [];
         let canvas, ctx;
+        let whatsappIti, phoneIti, smsIti;
 
         // Inicializar la aplicación
         document.addEventListener('DOMContentLoaded', function() {
             canvas = document.getElementById('qrCanvas');
             ctx = canvas.getContext('2d');
-            
+
+            whatsappIti = window.intlTelInput(document.querySelector('#whatsappNumber'), {
+                separateDialCode: true,
+                utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+            });
+            phoneIti = window.intlTelInput(document.querySelector('#phoneNumber'), {
+                separateDialCode: true,
+                utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+            });
+            smsIti = window.intlTelInput(document.querySelector('#smsNumber'), {
+                separateDialCode: true,
+                utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+            });
+
             initializeEventListeners();
             generateQR();
             updateInfo();
@@ -929,18 +971,35 @@
             });
 
             // WhatsApp inputs
-            document.getElementById('whatsappNumber').addEventListener('input', updateWhatsAppLink);
+            const whatsappNumberInput = document.getElementById('whatsappNumber');
+            whatsappNumberInput.addEventListener('input', updateWhatsAppLink);
+            whatsappNumberInput.addEventListener('countrychange', updateWhatsAppLink);
             document.getElementById('whatsappMessage').addEventListener('input', updateWhatsAppLink);
+
+            // Phone inputs
+            const phoneNumberInput = document.getElementById('phoneNumber');
+            phoneNumberInput.addEventListener('input', updatePhoneLink);
+            phoneNumberInput.addEventListener('countrychange', updatePhoneLink);
+
+            // SMS inputs
+            const smsNumberInput = document.getElementById('smsNumber');
+            smsNumberInput.addEventListener('input', updateSmsLink);
+            smsNumberInput.addEventListener('countrychange', updateSmsLink);
+            document.getElementById('smsMessage').addEventListener('input', updateSmsLink);
         }
 
         // Handle type change
         function handleTypeChange(type) {
             const content = document.getElementById('qrContent');
             const whatsappConfig = document.getElementById('whatsappConfig');
+            const phoneConfig = document.getElementById('phoneConfig');
+            const smsConfig = document.getElementById('smsConfig');
             const contentLabel = document.getElementById('contentLabel');
 
-            // Hide WhatsApp config by default
+            // Hide configs by default
             whatsappConfig.classList.add('hidden');
+            phoneConfig.classList.add('hidden');
+            smsConfig.classList.add('hidden');
             content.readOnly = false;
             content.style.background = '';
             contentLabel.textContent = 'Contenido del QR';
@@ -956,10 +1015,21 @@
                     content.value = 'mailto:ejemplo@email.com';
                     break;
                 case 'phone':
-                    content.value = 'tel:+1234567890';
+                    phoneConfig.classList.remove('hidden');
+                    content.readOnly = true;
+                    content.style.background = '#f9fafb';
+                    contentLabel.textContent = 'Vista previa del enlace';
+                    content.value = 'tel:';
+                    phoneIti.setNumber('');
                     break;
                 case 'sms':
-                    content.value = 'sms:+1234567890?body=Hola';
+                    smsConfig.classList.remove('hidden');
+                    content.readOnly = true;
+                    content.style.background = '#f9fafb';
+                    contentLabel.textContent = 'Vista previa del enlace';
+                    content.value = 'sms:';
+                    smsIti.setNumber('');
+                    document.getElementById('smsMessage').value = '';
                     break;
                 case 'wifi':
                     content.value = 'WIFI:T:WPA;S:MiWiFi;P:mipassword;;';
@@ -970,7 +1040,7 @@
                     content.style.background = '#f9fafb';
                     contentLabel.textContent = 'Vista previa del enlace';
                     content.value = 'https://wa.me/';
-                    document.getElementById('whatsappNumber').value = '';
+                    whatsappIti.setNumber('');
                     document.getElementById('whatsappMessage').value = '';
                     break;
                 case 'instagram':
@@ -1003,19 +1073,50 @@
         // Update WhatsApp link
         function updateWhatsAppLink() {
             if (currentType === 'whatsapp') {
-                const number = document.getElementById('whatsappNumber').value;
                 const message = document.getElementById('whatsappMessage').value;
-                
+                const number = whatsappIti.getNumber().replace(/\D/g, '');
+                const dialCode = whatsappIti.getSelectedCountryData().dialCode;
+
                 let link = 'https://wa.me/';
-                if (number) {
-                    let cleanNumber = number.replace(/\D/g, '');
-                    if (cleanNumber && !cleanNumber.startsWith('1') && !cleanNumber.startsWith('52') && !cleanNumber.startsWith('34')) {
-                        cleanNumber = '1' + cleanNumber;
-                    }
-                    link += cleanNumber;
+                if (number.length > dialCode.length) {
+                    link += number;
                     if (message) {
                         link += '?text=' + encodeURIComponent(message);
                     }
+                }
+                document.getElementById('qrContent').value = link;
+                generateQR();
+                updateInfo();
+            }
+        }
+
+        function updatePhoneLink() {
+            if (currentType === 'phone') {
+                const number = phoneIti.getNumber();
+                const dialCode = phoneIti.getSelectedCountryData().dialCode;
+                let link = 'tel:';
+                if (number.replace(/\D/g, '').length > dialCode.length) {
+                    link += number;
+                }
+                document.getElementById('qrContent').value = link;
+                generateQR();
+                updateInfo();
+            }
+        }
+
+        function updateSmsLink() {
+            if (currentType === 'sms') {
+                const number = smsIti.getNumber();
+                const dialCode = smsIti.getSelectedCountryData().dialCode;
+                const message = document.getElementById('smsMessage').value;
+                let link = 'sms:';
+                if (number.replace(/\D/g, '').length > dialCode.length) {
+                    link += number;
+                    if (message) {
+                        link += '?body=' + encodeURIComponent(message);
+                    }
+                } else if (message) {
+                    link += '?body=' + encodeURIComponent(message);
                 }
                 document.getElementById('qrContent').value = link;
                 generateQR();
@@ -1245,7 +1346,7 @@
                     const url = new URL(item.content);
                     const pathParts = url.pathname.split('/');
                     if (pathParts.length > 1) {
-                        document.getElementById('whatsappNumber').value = pathParts[1];
+                        whatsappIti.setNumber('+' + pathParts[1]);
                     }
                     const message = url.searchParams.get('text');
                     if (message) {
@@ -1253,6 +1354,21 @@
                     }
                 } catch (e) {
                     console.error('Error parsing WhatsApp URL:', e);
+                }
+            }
+
+            if (item.type === 'phone' && item.content.startsWith('tel:')) {
+                const number = item.content.replace('tel:', '');
+                phoneIti.setNumber(number);
+            }
+
+            if (item.type === 'sms' && item.content.startsWith('sms:')) {
+                const smsParts = item.content.substring(4).split('?body=');
+                if (smsParts[0]) {
+                    smsIti.setNumber(smsParts[0]);
+                }
+                if (smsParts[1]) {
+                    document.getElementById('smsMessage').value = decodeURIComponent(smsParts[1]);
                 }
             }
 
