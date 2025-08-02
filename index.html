@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generador de Códigos QR Pro</title>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <style>
         * {
             margin: 0;
@@ -120,6 +122,12 @@
             margin-bottom: 5px;
         }
 
+        .type-btn .icon ion-icon,
+        .type-btn .social-icon ion-icon {
+            width: 100%;
+            height: 100%;
+        }
+
         .type-btn .social-icon {
             width: 24px;
             height: 24px;
@@ -136,6 +144,16 @@
         .type-btn span {
             font-size: 0.75rem;
             font-weight: 500;
+        }
+
+        .inline-icon {
+            vertical-align: middle;
+            margin-right: 4px;
+        }
+
+        .action-btn ion-icon {
+            width: 16px;
+            height: 16px;
         }
 
         .input-field, .textarea-field, .select-field {
@@ -529,7 +547,7 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <h2>Configuración</h2>
                     <button class="btn-history" onclick="toggleHistory()">
-                        📋 Historial (<span id="historyCount">0</span>)
+                        <ion-icon class="inline-icon" name="albums-outline"></ion-icon>Historial (<span id="historyCount">0</span>)
                     </button>
                 </div>
 
@@ -538,7 +556,7 @@
                     <div class="history-header">
                         <h3 style="color: #1f2937; margin: 0;">Historial de QR</h3>
                         <button onclick="clearHistory()" style="color: #dc2626; background: none; border: none; cursor: pointer; font-size: 0.9rem;">
-                            🗑️ Limpiar todo
+                            <ion-icon class="inline-icon" name="trash-outline"></ion-icon>Limpiar todo
                         </button>
                     </div>
                     <div id="historyList">
@@ -551,27 +569,27 @@
                     <label class="form-label">Tipos básicos</label>
                     <div class="btn-grid btn-grid-4">
                         <button class="type-btn active" data-type="url">
-                            <div class="icon">🔗</div>
+                            <div class="icon"><ion-icon name="link-outline"></ion-icon></div>
                             <span>URL</span>
                         </button>
                         <button class="type-btn" data-type="text">
-                            <div class="icon">📝</div>
+                            <div class="icon"><ion-icon name="document-text-outline"></ion-icon></div>
                             <span>Texto</span>
                         </button>
                         <button class="type-btn" data-type="email">
-                            <div class="icon">📧</div>
+                            <div class="icon"><ion-icon name="mail-outline"></ion-icon></div>
                             <span>Email</span>
                         </button>
                         <button class="type-btn" data-type="phone">
-                            <div class="icon">📱</div>
+                            <div class="icon"><ion-icon name="call-outline"></ion-icon></div>
                             <span>Teléfono</span>
                         </button>
                         <button class="type-btn" data-type="sms">
-                            <div class="icon">💬</div>
+                            <div class="icon"><ion-icon name="chatbubble-outline"></ion-icon></div>
                             <span>SMS</span>
                         </button>
                         <button class="type-btn" data-type="wifi">
-                            <div class="icon">📶</div>
+                            <div class="icon"><ion-icon name="wifi-outline"></ion-icon></div>
                             <span>WiFi</span>
                         </button>
                     </div>
@@ -582,35 +600,35 @@
                     <label class="form-label">Redes sociales y mensajería</label>
                     <div class="btn-grid btn-grid-4">
                         <button class="type-btn" data-type="whatsapp">
-                            <div class="social-icon" style="background: #25d366;">W</div>
+                            <div class="social-icon" style="background: #25d366;"><ion-icon name="logo-whatsapp"></ion-icon></div>
                             <span>WhatsApp</span>
                         </button>
                         <button class="type-btn" data-type="instagram">
-                            <div class="social-icon" style="background: #e4405f;">I</div>
+                            <div class="social-icon" style="background: #e4405f;"><ion-icon name="logo-instagram"></ion-icon></div>
                             <span>Instagram</span>
                         </button>
                         <button class="type-btn" data-type="facebook">
-                            <div class="social-icon" style="background: #1877f2;">F</div>
+                            <div class="social-icon" style="background: #1877f2;"><ion-icon name="logo-facebook"></ion-icon></div>
                             <span>Facebook</span>
                         </button>
                         <button class="type-btn" data-type="twitter">
-                            <div class="social-icon" style="background: #000;">X</div>
+                            <div class="social-icon" style="background: #000;"><ion-icon name="logo-twitter"></ion-icon></div>
                             <span>Twitter/X</span>
                         </button>
                         <button class="type-btn" data-type="linkedin">
-                            <div class="social-icon" style="background: #0a66c2;">L</div>
+                            <div class="social-icon" style="background: #0a66c2;"><ion-icon name="logo-linkedin"></ion-icon></div>
                             <span>LinkedIn</span>
                         </button>
                         <button class="type-btn" data-type="youtube">
-                            <div class="social-icon" style="background: #ff0000;">Y</div>
+                            <div class="social-icon" style="background: #ff0000;"><ion-icon name="logo-youtube"></ion-icon></div>
                             <span>YouTube</span>
                         </button>
                         <button class="type-btn" data-type="tiktok">
-                            <div class="social-icon" style="background: #000;">T</div>
+                            <div class="social-icon" style="background: #000;"><ion-icon name="logo-tiktok"></ion-icon></div>
                             <span>TikTok</span>
                         </button>
                         <button class="type-btn" data-type="telegram">
-                            <div class="social-icon" style="background: #0088cc;">T</div>
+                            <div class="social-icon" style="background: #0088cc;"><ion-icon name="paper-plane-outline"></ion-icon></div>
                             <span>Telegram</span>
                         </button>
                     </div>
@@ -742,22 +760,22 @@
                     <div class="download-section">
                         <!-- Main Download Button -->
                         <button class="btn btn-primary" onclick="downloadQR('png')">
-                            ⬇️ Descargar PNG
+                            <ion-icon class="inline-icon" name="download-outline"></ion-icon>Descargar PNG
                         </button>
 
                         <!-- Format Options -->
                         <div class="format-grid">
                             <button class="btn btn-small btn-orange" onclick="downloadQR('jpg', 0.9)">
-                                ⬇️ JPG
+                                <ion-icon class="inline-icon" name="download-outline"></ion-icon>JPG
                             </button>
                             <button class="btn btn-small btn-green" onclick="downloadQR('webp', 0.9)">
-                                ⬇️ WebP
+                                <ion-icon class="inline-icon" name="download-outline"></ion-icon>WebP
                             </button>
                             <button class="btn btn-small btn-purple" onclick="downloadQR('svg')">
-                                ⬇️ SVG
+                                <ion-icon class="inline-icon" name="download-outline"></ion-icon>SVG
                             </button>
                             <button class="btn btn-small btn-red" onclick="downloadQR('pdf')">
-                                ⬇️ PDF
+                                <ion-icon class="inline-icon" name="download-outline"></ion-icon>PDF
                             </button>
                         </div>
 
@@ -772,7 +790,7 @@
                         </div>
 
                         <button class="btn btn-secondary" onclick="copyContent()">
-                            📋 Copiar contenido
+                            <ion-icon class="inline-icon" name="copy-outline"></ion-icon>Copiar contenido
                         </button>
                     </div>
 
@@ -812,7 +830,7 @@
                 </div>
 
                 <div class="guide-item">
-                    <h4>📁 Formatos de Descarga</h4>
+                    <h4><ion-icon class="inline-icon" name="folder-outline"></ion-icon>Formatos de Descarga</h4>
                     <p><strong>PNG:</strong> Mejor calidad, sin pérdida</p>
                     <p><strong>JPG:</strong> Menor tamaño, 3 niveles de calidad</p>
                     <p><strong>WebP:</strong> Formato moderno, excelente compresión</p>
@@ -821,7 +839,7 @@
                 </div>
 
                 <div class="guide-item">
-                    <h4>🔧 Funciones Avanzadas</h4>
+                    <h4><ion-icon class="inline-icon" name="construct-outline"></ion-icon>Funciones Avanzadas</h4>
                     <p><strong>Historial:</strong> Guarda automáticamente al descargar</p>
                     <p><strong>WiFi:</strong> WIFI:T:WPA;S:nombre;P:clave;;</p>
                     <p><strong>Colores:</strong> 8 presets + personalización completa</p>
@@ -1005,71 +1023,24 @@
             }
         }
 
-        // Generate QR matrix (simplified)
-        function generateQRMatrix(text, errorLevel = 'M') {
-            const size = 25;
-            const matrix = Array(size).fill().map(() => Array(size).fill(0));
-            
-            // Finder patterns
-            function addFinderPattern(startRow, startCol) {
-                for (let r = 0; r < 7; r++) {
-                    for (let c = 0; c < 7; c++) {
-                        if ((r === 0 || r === 6) || (c === 0 || c === 6) || 
-                            (r >= 2 && r <= 4 && c >= 2 && c <= 4)) {
-                            matrix[startRow + r][startCol + c] = 1;
-                        }
-                    }
-                }
-            }
-
-            addFinderPattern(0, 0);
-            addFinderPattern(0, 18);
-            addFinderPattern(18, 0);
-
-            // Timing patterns
-            for (let i = 8; i < 17; i++) {
-                matrix[6][i] = i % 2;
-                matrix[i][6] = i % 2;
-            }
-
-            // Data (simplified hash-based)
-            const textHash = text.split('').reduce((hash, char) => hash + char.charCodeAt(0), 0);
-            for (let r = 9; r < 18; r++) {
-                for (let c = 9; c < 18; c++) {
-                    matrix[r][c] = (textHash + r * c) % 2;
-                }
-            }
-
-            return matrix;
-        }
-
-        // Generate and draw QR
+        // Generate and draw QR using external API
         function generateQR() {
             const content = document.getElementById('qrContent').value;
             const size = parseInt(document.getElementById('sizeRange').value);
-            const fgColor = document.getElementById('foregroundColor').value;
-            const bgColor = document.getElementById('backgroundColor').value;
+            const fgColor = document.getElementById('foregroundColor').value.replace('#', '');
+            const bgColor = document.getElementById('backgroundColor').value.replace('#', '');
             const errorLevel = document.getElementById('errorLevel').value;
 
-            const matrix = generateQRMatrix(content, errorLevel);
-            const moduleSize = size / matrix.length;
+            const apiUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(content)}&size=${size}x${size}&color=${fgColor}&bgcolor=${bgColor}&ecc=${errorLevel}`;
 
-            canvas.width = size;
-            canvas.height = size;
-
-            // Background
-            ctx.fillStyle = bgColor;
-            ctx.fillRect(0, 0, size, size);
-
-            // QR modules
-            ctx.fillStyle = fgColor;
-            for (let row = 0; row < matrix.length; row++) {
-                for (let col = 0; col < matrix[row].length; col++) {
-                    if (matrix[row][col]) {
-                        ctx.fillRect(col * moduleSize, row * moduleSize, moduleSize, moduleSize);
-                    }
-                }
-            }
+            const img = new Image();
+            img.crossOrigin = "anonymous";
+            img.onload = () => {
+                canvas.width = size;
+                canvas.height = size;
+                ctx.drawImage(img, 0, 0, size, size);
+            };
+            img.src = apiUrl;
         }
 
         // Get QR type label
@@ -1125,29 +1096,26 @@
                     dataUrl = canvas.toDataURL('image/webp', quality);
                     filename = `qr-${currentType}-${timestamp}.webp`;
                     break;
+
                 case 'svg':
-                    const matrix = generateQRMatrix(document.getElementById('qrContent').value);
-                    const moduleSize = 10;
-                    const svgSize = matrix.length * moduleSize;
-                    const fgColor = document.getElementById('foregroundColor').value;
-                    const bgColor = document.getElementById('backgroundColor').value;
-                    
-                    let svgContent = `<svg width="${svgSize}" height="${svgSize}" xmlns="http://www.w3.org/2000/svg">
-                        <rect width="100%" height="100%" fill="${bgColor}"/>`;
-                    
-                    for (let row = 0; row < matrix.length; row++) {
-                        for (let col = 0; col < matrix[row].length; col++) {
-                            if (matrix[row][col]) {
-                                svgContent += `<rect x="${col * moduleSize}" y="${row * moduleSize}" width="${moduleSize}" height="${moduleSize}" fill="${fgColor}"/>`;
-                            }
-                        }
-                    }
-                    svgContent += '</svg>';
-                    
-                    const svgBlob = new Blob([svgContent], { type: 'image/svg+xml' });
-                    dataUrl = URL.createObjectURL(svgBlob);
-                    filename = `qr-${currentType}-${timestamp}.svg`;
-                    break;
+                    const fg = document.getElementById('foregroundColor').value.replace('#', '');
+                    const bg = document.getElementById('backgroundColor').value.replace('#', '');
+                    const content = document.getElementById('qrContent').value;
+                    const size = document.getElementById('sizeRange').value;
+                    const ecc = document.getElementById('errorLevel').value;
+                    const svgUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(content)}&size=${size}x${size}&color=${fg}&bgcolor=${bg}&ecc=${ecc}&format=svg`;
+                    fetch(svgUrl)
+                        .then(response => response.blob())
+                        .then(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const link = document.createElement('a');
+                            link.download = `qr-${currentType}-${timestamp}.svg`;
+                            link.href = url;
+                            link.click();
+                            URL.revokeObjectURL(url);
+                            saveToHistory();
+                        });
+                    return;
                 case 'pdf':
                     // Create PDF-like canvas
                     const pdfCanvas = document.createElement('canvas');
@@ -1188,11 +1156,6 @@
             link.download = filename;
             link.href = dataUrl;
             link.click();
-
-            // Clean up SVG object URL
-            if (format === 'svg') {
-                setTimeout(() => URL.revokeObjectURL(dataUrl), 100);
-            }
 
             // Save to history
             saveToHistory();
@@ -1240,9 +1203,9 @@
                         <p class="history-date">${item.createdAt}</p>
                     </div>
                     <div class="history-actions">
-                        <button class="action-btn" onclick="loadFromHistory(${item.id})" title="Cargar">👁️</button>
-                        <button class="action-btn" onclick="copyToClipboard('${item.content.replace(/'/g, "\\'")}')" title="Copiar">📋</button>
-                        <button class="action-btn" onclick="deleteFromHistory(${item.id})" title="Eliminar">🗑️</button>
+                        <button class="action-btn" onclick="loadFromHistory(${item.id})" title="Cargar"><ion-icon name="eye-outline"></ion-icon></button>
+                        <button class="action-btn" onclick="copyToClipboard('${item.content.replace(/'/g, "\\'")}')" title="Copiar"><ion-icon name="copy-outline"></ion-icon></button>
+                        <button class="action-btn" onclick="deleteFromHistory(${item.id})" title="Eliminar"><ion-icon name="trash-outline"></ion-icon></button>
                     </div>
                 </div>
             `).join('');
